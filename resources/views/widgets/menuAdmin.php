@@ -3,12 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet" type="text/css" >
-        <title>Главная</title>
+        <link rel="stylesheet" href="/css/style.css">
+        <title>Админка</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@800&family=Ranchers&display=swap" rel="stylesheet">
-        
+
+        <!-- Styles -->
+
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -17,10 +19,12 @@
 
 
 
-<?php include resource_path() . "/views/widgets/menu.php"; ?>
+              <a class="admin_link" href="<?=route('home')?>">На главную</a>
+
+
 
                     <div class="title m-b-md">
-                      Главная
+                      Сайт админки
                 </div>
             </div>
         </div>

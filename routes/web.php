@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{HomeController};
+use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\News\NewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +28,24 @@ use Illuminate\Support\Facades\Route;
 
 // }
 
-route::view('/', 'index');
-route::view('/about', 'about_us');
-route::view('/contacts', 'contacts');
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/about_us', [HomeController::class, 'about'])->name('about');
+
+
+Route::name('admin.')
+    ->prefix('admin')
+    ->group(
+        function() {
+            Route::get('/', [IndexController::class, 'index'])->name('index');
+        }
+    );
+
+Route::name('news.')
+    ->prefix('news')
+    ->group(
+        function (){
+            Route::get('/', [NewsController::class, 'index'])->name('news');
+            Route::get('/newsOne/{id}', [NewsController::class, 'show'])->name('newsOne');
+            Route::get('/rubric/{cat_id}',[NewsController::class, 'showByCategory'])->name('byCategory');
+        }
+    );
