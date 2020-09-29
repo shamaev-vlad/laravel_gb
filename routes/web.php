@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{HomeController};
 use App\Http\Controllers\Admin\IndexController;
-use App\Http\Controllers\News\NewsController;
+use App\Http\Controllers\News\{NewsController, CategoryController};
 
 /*
 |--------------------------------------------------------------------------
@@ -28,24 +28,36 @@ use App\Http\Controllers\News\NewsController;
 
 // }
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/about_us', [HomeController::class, 'about'])->name('about');
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::view('/about', 'about_us')->name('about');
 
 
 Route::name('admin.')
     ->prefix('admin')
     ->group(
-        function() {
+        function () {
             Route::get('/', [IndexController::class, 'index'])->name('index');
+            Route::get('/addrubric', [IndexController::class, 'addCategory'])->name('addCategory');
+            Route::get('/addnews', [IndexController::class, 'addNews'])->name('addNews');
         }
     );
 
-Route::name('news.')
-    ->prefix('news')
-    ->group(
-        function (){
-            Route::get('/', [NewsController::class, 'index'])->name('news');
-            Route::get('/newsOne/{id}', [NewsController::class, 'show'])->name('newsOne');
-            Route::get('/rubric/{cat_id}',[NewsController::class, 'showByCategory'])->name('byCategory');
-        }
-    );
+    Route::name('news.')
+        ->prefix('news')
+        ->group(
+            function () {
+
+                Route::name('category.')
+                    ->group(
+                        function () {
+                            Route::get('/rubric', [CategoryController::class, 'index'])->name('index');
+                            Route::get('/rubric/{slug}', [CategoryController::class, 'show'])->name('show');
+                        });
+
+                Route::redirect('/', '/news/rubric');
+                Route::get('/newsOne/{id}', [NewsController::class, 'show'])->name('newsOne');
+            }
+        );
+
+    Auth::routes();
