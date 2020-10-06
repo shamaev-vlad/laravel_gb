@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{HomeController};
-use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\{IndexController,ExportController, CrudCategoryController, CrudNewsController};
 use App\Http\Controllers\News\{NewsController, CategoryController};
 
 /*
@@ -29,7 +29,6 @@ use App\Http\Controllers\News\{NewsController, CategoryController};
 // }
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::view('/about', 'about_us')->name('about');
 
 
@@ -38,26 +37,38 @@ Route::name('admin.')
     ->group(
         function () {
             Route::get('/', [IndexController::class, 'index'])->name('index');
-            Route::get('/addrubric', [IndexController::class, 'addCategory'])->name('addCategory');
-            Route::get('/addnews', [IndexController::class, 'addNews'])->name('addNews');
+            Route::match(['get','post'], '/addrubric', [CrudCategoryController::class, 'create'])->name('addCategory');
+            Route::match(['get','post'], '/addnews', [CrudNewsController::class, 'create'])->name('addNews');
+
+            Route::name('download.')
+                ->prefix('download')
+                ->group(
+                    function () {
+                        Route::get('/', [ExportController::class, 'index'])->name('index');
+                        Route::get('/news', [ExportController::class, 'newsToJson'])->name('news.json');
+                        Route::get('/categories', [ExportController::class, 'categoryToJson'])->name('categories.json');
+                        Route::get('/newsxls', [ExportController::class, 'newsToExcel'])->name('news.xls');
+                        Route::get('/categoriesxls', [ExportController::class, 'categoryToExcel'])->name('categories.xls');
+                    });
         }
     );
 
-    Route::name('news.')
-        ->prefix('news')
-        ->group(
-            function () {
+Route::name('news.')
+    ->prefix('news')
+    ->group(
+        function () {
 
-                Route::name('category.')
-                    ->group(
-                        function () {
-                            Route::get('/rubric', [CategoryController::class, 'index'])->name('index');
-                            Route::get('/rubric/{slug}', [CategoryController::class, 'show'])->name('show');
-                        });
+            Route::name('category.')
+                ->group(
+                    function () {
+                        Route::get('/rubric', [CategoryController::class, 'index'])->name('index');
+                        Route::get('/rubric/{slug}', [CategoryController::class, 'show'])->name('show');
+                    });
 
-                Route::redirect('/', '/news/rubric');
-                Route::get('/newsOne/{id}', [NewsController::class, 'show'])->name('newsOne');
-            }
-        );
 
-    Auth::routes();
+            Route::get('/', [NewsController::class, 'index'])->name('index'); 
+            Route::get('/newsOne/{id}', [NewsController::class, 'show'])->name('newsOne');
+        }
+    );
+
+Auth::routes();

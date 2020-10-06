@@ -4,19 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades;
+use App\Traits\DataFromFile;
 
 class News extends Model
 {
-    use HasFactory;
+    use HasFactory, DataFromFile;
 
-    private static $news = [
+    public static $news = [
       '1' => ['id' => 1,
             'title' => 'Пожилых москвичей призвали соблюдать ограничения из-за коронавируса',
             'text'  => 'Мэр Москвы Сергей Собянин из-за ситуации с коронавирусом призвал пожилых москвичей
              и людей с хроническими заболеваниями перейти на удаленную работу или взять отпуск.
               Новые правила начнут действовать с 28 сентября.',
             'category_id' => '1',
-            'isPrivate' =>  false,
+            'isPrivate' =>  0,
         ],
       '2' => ['id' => 2,
               'title' => 'В Госдуме допустили возвращение школ на «удаленку» из-за COVID-19',
@@ -24,7 +26,7 @@ class News extends Model
                выступил депутат Госдумы, экс-глава Роспотребнадзора, академик РАН Геннадий Онищенко.
               Об этом он заявил в пятницу "Интерфаксу".',
               'category_id' => '1',
-              'isPrivate' =>  false,
+              'isPrivate' =>  1,
           ],
         '3' => ['id' => 3,
                 'title' => 'ЕС попросил Украину не воспринимать его как банкомат',
@@ -33,14 +35,14 @@ class News extends Model
                   и не банкомат.
                 Об этом говорится в заявлении Борреля на сайте ЕС по итогам его поездки в страну.',
                 'category_id' => '2',
-                'isPrivate' =>  false,
+                'isPrivate' =>  0,
             ],
         '4' => ['id' => 4,
             'title' => 'Генштаб сообщил о военной активности НАТО рядом с границами России',
             'text'  => 'В 20–30 км от границ России НАТО наращивает военную активность. Об этом сообщил начальник Генштаба Вооруженных сил России Валерий Герасимов
              на брифинге с иностранными военными атташе после завершения учений «Кавказ-2020», передает «Интерфакс».',
             'category_id' => '2',
-            'isPrivate' =>  false,
+            'isPrivate' =>  0,
         ],
         '5' => ['id' => 5,
             'title' => 'Томскпромстройбанк ввел новый вклад',
@@ -48,28 +50,28 @@ class News extends Model
             Депозит открывается от 50 тыс. рублей на 151 день.
              Процентная ставка составляет 4,65% годовых.',
             'category_id' => '3',
-            'isPrivate' =>  false,
+            'isPrivate' =>  0,
         ],
         '6' => ['id' => 6,
             'title' => 'Около 85 тыс. многодетных получили выплаты на погашение ипотеки',
             'text'  => 'Напомним, программа поддержки семей с детьми заработала осенью прошлого года.
              Денежные средства направляются на погашение задолженности по основному долгу по ипотеке.',
             'category_id' => '3',
-            'isPrivate' =>  false,
+            'isPrivate' =>  1,
         ],
         '7' => ['id' => 7,
             'title' => 'Кабмин предложил устанавливать умные счетчики за счет россиян',
             'text'  => 'Кабмин поручил профильным ведомствам проработать вопрос о включении стоимости установки «умных» счетчиков в коммунальные платежи.
             Соответствующие поручения были даны заместителем председателя правительства Юрием Борисовым.',
             'category_id' => '3',
-            'isPrivate' =>  false,
+            'isPrivate' =>  0,
         ],
         '8' => ['id' => 8,
             'title' => 'На Украине начались продажи автомобилей Lada местной сборки',
             'text'  => '«На официальном сайте Lada на Украине появился прайс-лист на продукцию,
             в котором большая часть автомобилей отмечены, как произведенные на ЗАЗе», — говориться в издании.',
             'category_id' => '4',
-            'isPrivate' =>  false,
+            'isPrivate' =>  0,
         ],
         '9' => ['id' => 9,
             'title' => 'Volkswagen представил в России обновленный Tiguan',
@@ -77,19 +79,22 @@ class News extends Model
             Модель, которую собирают на заводе в Калуге, появится в автосалонах в четырех комплектациях
              с бензиновыми моторами мощностью от 125 до 220 лошадиных сил – Respect, Status, Exclusive, R-Line.',
             'category_id' => '4',
-            'isPrivate' =>  false,
+            'isPrivate' =>  0,
         ],
     ];
 
+    private static $storageFileName = '/news.json';
+
+    public static function getAll(){
+        return static::getNews();
+    }
+
     public static function getNews(){
-        return static::$news;
+        return static::getFromFile();
     }
 
     public static function getNewsById($id){
-            if (array_key_exists($id, static::getNews()))
-                return static::getNews()[$id];
-            else
-                return [];
+        return static::getNews()[$id] ?? [];
     }
 
     public static function getNewsByCategorySlug($slug) {
