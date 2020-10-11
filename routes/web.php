@@ -37,8 +37,6 @@ Route::name('admin.')
     ->group(
         function () {
             Route::get('/', [IndexController::class, 'index'])->name('index');
-            Route::match(['get','post'], '/addrubric', [CrudCategoryController::class, 'create'])->name('addCategory');
-            Route::match(['get','post'], '/addnews', [CrudNewsController::class, 'create'])->name('addNews');
 
             Route::name('download.')
                 ->prefix('download')
@@ -50,6 +48,9 @@ Route::name('admin.')
                         Route::get('/newsxls', [ExportController::class, 'newsToExcel'])->name('news.xls');
                         Route::get('/categoriesxls', [ExportController::class, 'categoryToExcel'])->name('categories.xls');
                     });
+
+           Route::resource('category', CrudCategoryController::class);
+           Route::resource('news', CrudNewsController::class);
         }
     );
 
@@ -66,8 +67,9 @@ Route::name('news.')
                     });
 
 
-            Route::get('/', [NewsController::class, 'index'])->name('index'); 
-            Route::get('/newsOne/{id}', [NewsController::class, 'show'])->name('newsOne');
+            Route::get('/', [NewsController::class, 'index'])->name('index');
+            Route::get('/newsOne/{news}', [NewsController::class, 'show'])->name('newsOne');
+            Route::post('/search', [NewsController::class, 'search'])->name('search');
         }
     );
 
