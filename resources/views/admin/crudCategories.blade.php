@@ -23,7 +23,6 @@
                                 {{ __($category->title ) }}
                             </h3>
                             <p>
-  {{--                              <a class="btn btn-danger" href="{{ route('admin.category.destroy', $category) }}">Destroy</a>--}}
                             <form method="POST" action="{{ route('admin.category.destroy', $category) }}">
                                 <a class="btn btn-success" href="{{ route('admin.category.edit', $category) }}">Редактировать</a>
                                     @csrf

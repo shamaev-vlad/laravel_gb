@@ -60,27 +60,50 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="category_id" class="col-md-4 col-form-label text-md-right">{{ __('Категория') }}</label>
+                                <label for="category_id"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Рубрика') }}</label>
                                 <div class="col-md-8">
-                                  <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" required autocomplete="category_id" autofocus>
-                                      <option disabled selected>{{ __('Укажите рубрику') }}</option>
-                                      @forelse($errors as $category)
-                                          <option  @if ($category['category_id'] == old('category_id')) selected @endif value="{{ $category->title }}">{{ $category->title  }}</option>
-                                      @empty
-                                          <option >{{ __('Укажите рубрику') }}</option>
-                                      @endforelse
-                                  </select>
-                                    @error('category_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+
+
+                                  <select name="category_id" id="category_id"
+                                            class="form-control @error('category_id') is-invalid @enderror">
+
+                                        @if($news->id)
+                                            <option disabled>{{ __('Укажите рубрику') }}</option>
+                                        @else
+                                            <option disabled selected>{{ __('Укажите рубрику') }}</option>
+                                        @endif
+
+                                        @forelse($categories as $item)
+                                            @if (old('category_id'))
+                                                <option @if ($item->id == old('category_id')) selected
+                                                        @endif value="{{ $item->id }}">{{ __($item->title) }}</option>
+                                            @else
+                                                <option @if ($item->id == $news->category_id) selected
+                                                        @endif value="{{ $item->id }}">{{ __($item->title) }}</option>
+                                            @endif
+                                        @empty
+                                            <option disabled value="0">Нет категорий</option>
+                                        @endforelse
+                                    </select>
+
+
+                                  @error('category_id')
+                                   <span class="invalid-feedback" role="alert">
+                                       <strong>{{ $message }}</strong>
+                                   </span>
+                                   @enderror
+                               </div>
+                           </div>
+
+
+
 
                             <div class="form-group row align-items-sm-center">
                                 <label for="isPrivate" class="col-md-4 col-form-label text-md-right">{{ __('Приватная новость') }}</label>
-                                <input class='' @if (old('isPrivate')) checked @endif id="isPrivate" type="checkbox" class="form-control @error('isPrivate') is-invalid @enderror" name="isPrivate" value=true  autocomplete="isPrivate" autofocus>
+                                <input class='' @if ($news->isPrivate == 1 || old('isPrivate') == 1) checked @endif id="isPrivate" type="checkbox"
+                                           class="form-control form-check-input @error('isPrivate') is-invalid @enderror"
+                                           name="isPrivate" value=1 autocomplete="isPrivate" autofocus>
                                 <div class="col-md-8">
                                     @error('isPrivate')
                                     <span class="invalid-feedback" role="alert">
@@ -89,11 +112,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="image" class="col-md-4 col-form-label text-md-right">{{ __('Добавить картинку') }}</label>
-                                <input id="image" type="file" name="image">
-                            </div>
-
+                            
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">

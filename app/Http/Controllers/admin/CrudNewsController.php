@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ValidNews;
+use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades;
 
 class CrudNewsController extends Controller
 {
@@ -25,20 +28,23 @@ class CrudNewsController extends Controller
      */
     public function create()
     {
-        return view('admin.addNews')->with('news', new News());
+        return view('admin.addNews')->with('news', new News())->with('categories', Category::all());
         //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ValidNews  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ValidNews $request)
     {
+      $validated = $request->validated();
+
       $news = new News();
-      $news->fill($request->all())->save();
+      $news->fill($request->except('_token'));
+      $news->save();
 
       return redirect()->route('admin.news.index', $news->id)->with('success', 'Новость добавлена успешно!');
     }
@@ -49,11 +55,10 @@ class CrudNewsController extends Controller
      * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-      dd($news);
-      return view('admin.crudNews')->with('news', $news);
-    }
+     public function show(News $news)
+     {
+         return view('news.one')->with('news', $news);
+     }
 
     /**
      * Show the form for editing the specified resource.
@@ -63,21 +68,33 @@ class CrudNewsController extends Controller
      */
     public function edit(News $news)
     {
-        return view('admin.addNews')->with('news', $news);
+        return view('admin.addNews')->with('news', $news)->with('categories', Category::all());
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ValidNews  $request
      * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
-    {
-      $news->fill($request->all())->save();
-      return redirect()->route('admin.news.index')->with('success', 'Новость обновлена успешно!');
-    }
+     public function update(ValidNews $request, News $news)
+     {
+
+       $validated = $request->validated();
+
+      $url = $news->image;
+
+      if ($request->file('image')){
+          $path = Facades\Storage::putFile('public', $request->file('image'));
+          $url = Facades\Storage::url($path);
+      }
+
+      $news->fill($request->except('_token'));
+      $news->isPrivate = ($request->isPrivate) ?? 0;
+      $news->save();
+      return redirect()->route('admin.news.show', $news)->with('success', 'Новость изменена!');
+     }
 
     /**
      * Remove the specified resource from storage.

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Downloads')
+@section('title', 'Загрузить')
 
 @section('menu')
     @include('widgets.menuAdmin')

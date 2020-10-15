@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @if($category->id)
-  @section('title', 'Administer | Обновить рубрику')
+  @section('title', 'Админка | Обновить рубрику')
 @else
-  @section('title', 'Administer | Добавить рубрику')
+  @section('title', 'Админка | Добавить рубрику')
 @endif
 
 @section('menu')

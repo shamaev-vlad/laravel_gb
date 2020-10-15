@@ -15,15 +15,17 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function show($slug) {
-      $category = Category::query()->where('slug', $slug)->first();
-      $news = News::query()->where('category_id', $category->id)->get();
-
-      //$category->news->get();
-
+    public function show($slug)
+    {
+        $category = Category::query()->where('slug', '=', $slug)->first();
+        if ($category) {
+            $news = $category->news()->get();
+        } else {
+            $news = null;
+        }
         return view('news.byCategory', [
             'news' => $news,
-            'category' => $category
+            'category' => $category,
         ]);
     }
 }

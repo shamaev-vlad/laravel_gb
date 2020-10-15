@@ -1,11 +1,8 @@
 @extends('layouts.app')
 
 @if ($category)
-    @section('title', $category)
-@else
-    @section('title', 'Рубрика')
+    @section('title', $category->title)
 @endif
-
 @section('menu')
     @include('widgets.menu')
 @endsection

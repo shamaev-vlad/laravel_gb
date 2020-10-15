@@ -29,6 +29,7 @@ use App\Http\Controllers\News\{NewsController, CategoryController};
 // }
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::view('/about', 'about_us')->name('about');
 
 

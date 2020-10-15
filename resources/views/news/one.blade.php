@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Новость')
-
+@if ($news)
+  @section('title', $news->title)
+@endif
 @section('menu')
     @include('widgets.menu')
 @endsection
