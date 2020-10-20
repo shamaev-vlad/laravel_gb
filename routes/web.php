@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{HomeController};
-use App\Http\Controllers\Admin\{IndexController,ExportController, CrudCategoryController, CrudNewsController};
+use App\Http\Controllers\{HomeController, ProfileController};
+use App\Http\Controllers\Admin\{IndexController,ExportController, CrudCategoryController, CrudNewsController, CrudUserController};
 use App\Http\Controllers\News\{NewsController, CategoryController};
 
 /*
@@ -29,12 +29,13 @@ use App\Http\Controllers\News\{NewsController, CategoryController};
 // }
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/home', [HomeController::class, 'home'])->name('home');
+
 Route::view('/about', 'about_us')->name('about');
 
 
 Route::name('admin.')
     ->prefix('admin')
+    ->middleware(['auth', 'is_admin'])
     ->group(
         function () {
             Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -52,6 +53,7 @@ Route::name('admin.')
 
            Route::resource('category', CrudCategoryController::class);
            Route::resource('news', CrudNewsController::class);
+           Route::resource('user', CrudUserController::class);
         }
     );
 
@@ -75,3 +77,6 @@ Route::name('news.')
     );
 
 Auth::routes();
+
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');

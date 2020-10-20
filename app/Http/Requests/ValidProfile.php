@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
 
-class ValidNews extends FormRequest
+class ValidProfile extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,6 +14,7 @@ class ValidNews extends FormRequest
      */
     public function authorize()
     {
+
         return true;
     }
 
@@ -24,11 +26,9 @@ class ValidNews extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|min:3|max:255',
-            'text' => 'required|string|min:10'
-            'isPrivate' => 'boolean',
-            'category_id' => 'required|exists:App\Models\Category,id',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$this->user()->id],
+            'password' => ['required', 'string', 'min:3', 'confirmed'],
         ];
     }
-
 }

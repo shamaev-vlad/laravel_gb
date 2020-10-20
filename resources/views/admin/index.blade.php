@@ -23,9 +23,12 @@
                         <li class="nav-item {{ request()->routeIs('admin.news.index')?'active':'' }}">
                                <a class="card-body_link" href="{{ route('admin.news.index') }}">{{ __('Редактирование новостей') }}</a>
                            </li>
-                           <li class="nav-item {{ request()->routeIs('admin.category.index')?'active':'' }}">
+                        <li class="nav-item {{ request()->routeIs('admin.category.index')?'active':'' }}">
                                <a class="card-body_link" href="{{ route('admin.category.index') }}">{{ __('Редактирование рубрик') }}</a>
-                           </li>
+                            </li>
+                        <li class="nav-item {{ request()->routeIs('admin.user.index')?'active':'' }}">
+                                <a class="card-body_link" href="{{ route('admin.user.index') }}">{{ __('Редактирование Профилей') }}</a>
+                            </li>
                     </div>
                 </div>
             </div>

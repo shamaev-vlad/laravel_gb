@@ -19,7 +19,7 @@ class CategoryController extends Controller
     {
         $category = Category::query()->where('slug', '=', $slug)->first();
         if ($category) {
-            $news = $category->news()->get();
+            $news = $category->news()->paginate(5);
         } else {
             $news = null;
         }

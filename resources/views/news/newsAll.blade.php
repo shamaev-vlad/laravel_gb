@@ -37,6 +37,9 @@
                         @else
                             {{ __('Нет новостей') }}
                         @endif
+
+                        {{ $news->links() }}
+
                     </div>
                 </div>
             </div>
