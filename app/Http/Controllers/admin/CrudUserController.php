@@ -18,10 +18,12 @@ class CrudUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('admin.crudUser')->with('users', User::query()->orderByDesc('id')->paginate(5));
-    }
+     public function index()
+     {
+         $users = User::query()->where('id', '!=', Auth::id())->get();
+         return view('admin.crudUser', ['users' => $users]);
+     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -75,23 +77,15 @@ class CrudUserController extends Controller
      * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(ValidUser $request, User $user)
-    {
-        $current_admin = Auth::user();
-        if (($current_admin->id == $user->id) && (!$request->post('is_admin'))) {
-            $errors['is_admin'][] = 'Нельзя перестать быть админом самому!';
-            return redirect()->route('admin.user.index')->withErrors($errors);
-        }
+     public function toggleAdmin(User $user) {
+         if ($user->id != Auth::id()) {
+             $user->is_admin = !$user->is_admin;
+             $user->save();
+             return redirect()->route('admin.updateUser')->with('success', 'Права изменены');
+         }
+         return redirect()->route('admin.updateUser')->with('success', 'Нельзя снять админа с себя.');
 
-        $user->fill([
-            'name' => $request->post('name'),
-            'email' => $request->post('email'),
-            'password' => Hash::make($request->post('password')),
-            'is_admin' => $request->post('is_admin'),
-        ]);
-        $user->save();
-        return redirect()->route('admin.user.index')->with('success', 'Профиль успешно изменен!');
-    }
+     }
 
     /**
      * Remove the specified resource from storage.

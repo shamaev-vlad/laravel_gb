@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,6 +25,8 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123'),
                 'remember_token' => Str::random(10),
                 'is_admin' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'name' => 'user1',
@@ -32,6 +35,8 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123'),
                 'remember_token' => Str::random(10),
                 'is_admin' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'name' => 'user2',
@@ -40,6 +45,8 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123'),
                 'remember_token' => Str::random(10),
                 'is_admin' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'name' => 'user3',
@@ -48,6 +55,8 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123'),
                 'remember_token' => Str::random(10),
                 'is_admin' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ];
         DB::table('users')->insert($users);

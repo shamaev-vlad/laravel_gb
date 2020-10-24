@@ -14,3 +14,6 @@
 <li class="nav-item {{ request()->routeIs('about')?'active':'' }}">
   <a class="nav-link" href="{{ route('about') }}">{{ __('О нас') }}</a>
 </li>
+<li class="nav-item {{ request()->routeIs('about')?'active':'' }}">
+  <a class="nav-link" href="{{ route('admin.parser') }}">{{ __('Парсер') }}</a>
+</li>

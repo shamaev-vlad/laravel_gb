@@ -31,7 +31,12 @@ use App\Http\Controllers\News\{NewsController, CategoryController};
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
 Route::view('/about', 'about_us')->name('about');
+Route::view('/ajax', 'ajax')->name('ajax');
+Route::post('/toggle', 'HomeController@ajax');
+Route::get('/auth/vk', 'LoginController@loginVK')->name('vklogin');
+Route::get('/auth/vk/response', 'LoginController@responseVK')->name('vkResponse');
 
+Route::match(['get','post'], '/profile', 'ProfileController@update')->name('updateProfile');
 
 Route::name('admin.')
     ->prefix('admin')
@@ -39,6 +44,9 @@ Route::name('admin.')
     ->group(
         function () {
             Route::get('/', [IndexController::class, 'index'])->name('index');
+            Route::get('/crudUser', 'CrudUserController@index')->name('updateUser');
+            Route::get('/crudUser/toggleAdmin/{user}', 'CrudUserController@toggleAdmin')->name('toggleAdmin');
+            Route::get('/parser', 'ParserController@index')->name('parser');
 
             Route::name('download.')
                 ->prefix('download')
@@ -54,6 +62,7 @@ Route::name('admin.')
            Route::resource('category', CrudCategoryController::class);
            Route::resource('news', CrudNewsController::class);
            Route::resource('user', CrudUserController::class);
+
         }
     );
 
