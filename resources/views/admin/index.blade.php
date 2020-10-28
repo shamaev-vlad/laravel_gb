@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', 'Админка')
@@ -25,9 +24,6 @@
                            </li>
                         <li class="nav-item {{ request()->routeIs('admin.category.index')?'active':'' }}">
                                <a class="card-body_link" href="{{ route('admin.category.index') }}">{{ __('Редактирование рубрик') }}</a>
-                            </li>
-                        <li class="nav-item {{ request()->routeIs('admin.user.index')?'active':'' }}">
-                                <a class="card-body_link" href="{{ route('admin.user.index') }}">{{ __('Редактирование Профилей') }}</a>
                             </li>
                     </div>
                 </div>

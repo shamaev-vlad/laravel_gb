@@ -2,34 +2,48 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Jobs\ParsingNews;
+use App\Models\News;
+
 use App\Http\Controllers\Controller;
-use Orchestra\Parser\Xml\Facade as XmlParser;
+use Illuminate\Http\Request;
+use Orchestra\Parser\Xml\Facade as XMLParser;
+use App\Services\XMLParserService;
+use Symfony\Component\DomCrawler\Crawler;
+use DB;
 
 class ParserController extends Controller
 {
-    public function index() {
-        $xml = XmlParser::load('https://lenta.ru/rss');
+    public function index()
+    {
+        $categories = Category::all();
+        //dd($categories);
 
-        dump($xml);
-
-        $data = $xml->parse([
-            'title' => ['uses' => 'channel.title'],
-            'link' => ['uses' => 'channel.link'],
-            'description' => ['uses' => 'channel.description'],
-            'image' => ['uses' => 'channel.image.url'],
-            'news' => ['uses' => 'channel.item[title,link,guid,description,pubDate,enclosure::url]']
-         ]);
-
-
-        foreach ($data['news'] as $news) {
-            // Получить категорию (с id)
-            // при необходимости добавить в БД
-            // ПОлучить новость
-            // при необходимости добавить с id Категории
-            //HELP News::query()->firstOrCreate([])
+        if (!isset($categories)) {
+            return view('admin.parser', ['categories' => false]);
+        } else {
+            return view('admin.parser', ['categories' => $categories]);
         }
     }
 
+    public function getParsedNews(XMLParserService $parserService)
+    {
+
+        $rssLinks = DB::table('resources')->get();
+        //dd($rssLinks);
+        foreach ($rssLinks as $link) {
+            ParsingNews::dispatch($link->link);
+        }
+
+        $categories = Category::all();
+        $news = News::all();
+        //dd($news);
+        if (!isset($categories)) {
+            return view('admin.parser', ['categories' => false]);
+        } else {
+            return view('admin.parser', ['categories' => $categories, 'news'=> $news]);
+        }
+    }
 
 }

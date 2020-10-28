@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{HomeController, ProfileController};
-use App\Http\Controllers\Admin\{IndexController,ExportController, CrudCategoryController, CrudNewsController, CrudUserController};
+use App\Http\Controllers\{HomeController, ProfileController, LoginController};
+use App\Http\Controllers\Admin\{IndexController,ExportController, CrudCategoryController, CrudNewsController, UsersController, ParserController};
 use App\Http\Controllers\News\{NewsController, CategoryController};
 
 /*
@@ -32,11 +32,15 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 
 Route::view('/about', 'about_us')->name('about');
 Route::view('/ajax', 'ajax')->name('ajax');
-Route::post('/toggle', 'HomeController@ajax');
-Route::get('/auth/vk', 'LoginController@loginVK')->name('vklogin');
-Route::get('/auth/vk/response', 'LoginController@responseVK')->name('vkResponse');
+Route::post('/toggle', [HomeController::class, 'ajax']);
 
-Route::match(['get','post'], '/profile', 'ProfileController@update')->name('updateProfile');
+Route::get('/auth/vk', [LoginController::class, 'loginVK'])->name('vklogin');
+Route::get('/auth/vk/response', [LoginController::class, 'responseVK'])->name('vkResponse');
+
+Route::get('/auth/git', [LoginController::class, 'loginGit'])->name('gitlogin');
+Route::get('/auth/git/response', [LoginController::class, 'responseGit'])->name('gitResponse');
+
+Route::match(['get','post'], '/profile', [ProfileController::class, 'update'])->name('updateProfile');
 
 Route::name('admin.')
     ->prefix('admin')
@@ -44,9 +48,6 @@ Route::name('admin.')
     ->group(
         function () {
             Route::get('/', [IndexController::class, 'index'])->name('index');
-            Route::get('/crudUser', 'CrudUserController@index')->name('updateUser');
-            Route::get('/crudUser/toggleAdmin/{user}', 'CrudUserController@toggleAdmin')->name('toggleAdmin');
-            Route::get('/parser', 'ParserController@index')->name('parser');
 
             Route::name('download.')
                 ->prefix('download')
@@ -61,7 +62,13 @@ Route::name('admin.')
 
            Route::resource('category', CrudCategoryController::class);
            Route::resource('news', CrudNewsController::class);
-           Route::resource('user', CrudUserController::class);
+           Route::resource('user', UsersController::class);
+           Route::get('/crudUser', [UsersController::class, 'index'])->name('updateProfile');
+           Route::get('/crudUser', [UsersController::class, 'index'])->name('updateProfile');
+           Route::get('/crudUser/toggleAdmin/{user}', [UsersController::class, 'toggleAdmin'])->name('toggleAdmin');
+
+           Route::get('/parser', [ParserController::class, 'index'])->name('parser');
+           Route::get('/parserNews', [ParserController::class, 'getParsedNews'])->name('parserNews');
 
         }
     );
@@ -76,6 +83,7 @@ Route::name('news.')
                     function () {
                         Route::get('/rubric', [CategoryController::class, 'index'])->name('index');
                         Route::get('/rubric/{slug}', [CategoryController::class, 'show'])->name('show');
+
                     });
 
 

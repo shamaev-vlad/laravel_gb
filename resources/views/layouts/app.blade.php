@@ -61,6 +61,7 @@
                                     <a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('Админка') }}</a>
                                 @endif
                                 <a class="dropdown-item" href="{{ route('profile.show') }}">{{ __('Профиль') }}</a>
+                                  <a class="dropdown-item {{ request()->routeIs('admin.user.index') ? 'active' : '' }}" href="{{ route('admin.user.index') }}">Пользователи</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

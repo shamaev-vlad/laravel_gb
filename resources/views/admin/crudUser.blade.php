@@ -31,28 +31,28 @@
                                           {{ __('Статус: user') }}
                                       @endif
                                   </p>
-                                  <div class="col-md-8">
-                                    @if ($user->is_admin)
-                                        <a href="{{ route('admin.toggleAdmin', $user) }}" type="button" class="btn btn-danger">Снять админа</a>
-                                    @else
-                                        <a href="{{ route('admin.toggleAdmin', $user) }}" type="button" class="btn btn-success">Назначить админом</a>
-                                    @endif
-                                  </div>
-                                  <p>
+                                  <div style="display: flex; margin-bottom: 10px;">
+                                  @if ($user->is_admin)
+                            <a href="{{route('admin.toggleAdmin', $user)}}"><button type="button" class="btn btn-danger">Поменять статус</button></a>
+                            @else
+                            <a href="{{route('admin.toggleAdmin', $user)}}"> <button type="button" class="btn btn-success">Поменять статус</button></a>
+                            @endif
+
+
                                     <form method="POST" action="{{ route('admin.user.destroy', $user) }}">
                                       @csrf
                                       @method('DELETE')
-                                      <a class="btn btn-success" href="{{ route('admin.user.edit', $user) }}">Редактировать</a>
-                                      <button type="submit" class="btn btn-danger">
+                                      <button type="submit" class="btn btn-danger" style="margin-left: 25px;">
                                           {{ __('Удалить') }}
                                         </button>
                                     </form>
-                                    </p>
+                                  </div>
+
                                 </div>
                             @empty
                                 {{ __('Список пользователей пуст!') }}
                             @endforelse
-
+                            {{ $users->links() }}
                         </div>
                     </div>
                 </div>

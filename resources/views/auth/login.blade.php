@@ -62,6 +62,16 @@
                                         {{ __('Забыли пароль?') }}
                                     </a>
                                 @endif
+                                <li style="list-style-type:none; margin-top: 50px;">
+                                  <button type="button" class="btn btn-primary mx-auto bg-dark">
+                                  <a class="text-white" href="{{ route('vklogin') }}">Авторизоваться через VK</a>
+                                </button>
+                                </li>
+                                <li style="list-style-type:none; margin-top: 10px;">
+                                  <button type="button" class="btn btn-primary mx-auto bg-dark">
+                                  <a class="text-white" href="{{ route('gitlogin') }}">Авторизоваться через GitHub</a>
+                                </button>
+                                </li>
                             </div>
                         </div>
                         <div class="form-group row mb-5" style="border-bottom: 1px solid #d4d4d4; margin-right: 120px;

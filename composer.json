@@ -15,7 +15,10 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "orchestra/parser": "^6.0"
+        "orchestra/parser": "^6.0",
+        "socialiteproviders/github": "^1.0",
+        "socialiteproviders/vkontakte": "^4.1",
+        "unisharp/laravel-filemanager": "~1.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
