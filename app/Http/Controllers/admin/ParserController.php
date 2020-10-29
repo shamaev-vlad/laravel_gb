@@ -9,7 +9,7 @@ use App\Models\News;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Orchestra\Parser\Xml\Facade as XMLParser;
-use App\Services\XMLParserService;
+use App\Services\XMLParserServices;
 use Symfony\Component\DomCrawler\Crawler;
 use DB;
 
@@ -27,13 +27,13 @@ class ParserController extends Controller
         }
     }
 
-    public function getParsedNews(XMLParserService $parserService)
+    public function getParsedNews(XMLParserServices $parserServices)
     {
 
         $rssLinks = DB::table('resources')->get();
         //dd($rssLinks);
         foreach ($rssLinks as $link) {
-            ParsingNews::dispatch($link->link);
+            ParsingNews::dispatch($rssLinks);
         }
 
         $categories = Category::all();

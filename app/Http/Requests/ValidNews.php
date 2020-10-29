@@ -25,7 +25,7 @@ class ValidNews extends FormRequest
     {
         return [
             'title' => 'required|string|min:3|max:255',
-            'text' => 'required|string|min:10'
+            'text' => 'required|string|min:10',
             'isPrivate' => 'boolean',
             'category_id' => 'required|exists:App\Models\Category,id',
         ];

@@ -15,8 +15,8 @@ class CreateNewsCategories extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title',20);
-            $table->string('slug',20);
+            $table->string('title',255);
+            $table->string('slug',255);
             $table->timestamps();
         });
     }

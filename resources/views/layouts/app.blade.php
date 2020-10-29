@@ -20,7 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app">
+<div >
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -41,16 +41,17 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    <form class="form-inline" method="POST" action="{{ route('news.search') }}">
+                    <!-- <form class="form-inline" method="POST" action="{{ route('news.search') }}">
                         @csrf
                         <input class="form-control mr-sm-2"  type="search" placeholder="Введите для поиска..." aria-label="Search" name="search">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
-                    </form>
+                    </form> -->
                     @guest
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Войти') }}</a>
                         </li>
                     @else
+                      <img src="{{ Auth::user()->avatar }}" whidth="40" alt="">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

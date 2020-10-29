@@ -2,6 +2,7 @@
 
 @section('title', 'Рубрики')
 
+
 @section('menu')
     @include('widgets.menu')
 @endsection
@@ -25,6 +26,9 @@
                         @empty
                         {{ __('Список новостных рубрик пуст!') }}
                         @endforelse
+
+                      
+
                     </div>
                 </div>
             </div>

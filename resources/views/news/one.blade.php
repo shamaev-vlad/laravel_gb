@@ -19,7 +19,7 @@
                     @endif
                     <div class="card-body">
                       <div >
-                          <img class="card-img-top" src="{{ $news->image ?? asset('/storage/default.jpg')}}">
+                          <img class="card-img-top" src="{{ $news->image ?? asset('default.jpg')}}">
                       </div>
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
@@ -27,11 +27,9 @@
                             </div>
                         @endif
                             @if ($news)
-                                @if (!$news->isPrivate)
-                                    <p>{{ __($news->text) }}</p>
-                                @else
-                                    <p>{{ __('Зарегистрируйтесь для просмотра') }}</p>
-                                @endif
+
+                                    <p>{!! $news->text !!}</p>
+
                             @else
                                 <p>{{ __('Нет новости с таким id') }}</p>
                             @endif

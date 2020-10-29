@@ -8,9 +8,8 @@ use App\Models\Category;
 use App\Models\News;
 use DB;
 use Orchestra\Parser\Xml\Facade as XMLParser;
-//use Symfony\Component\DomCrawler\Crawler;
 
-class XMLParserService
+class XMLParserServices
 {
     public function saveParsedNews($link)
     {
@@ -19,18 +18,25 @@ class XMLParserService
 
         $data = $xml->parse([
             'category' => ['uses' => 'channel.title'],
-            'news' => ['uses' => 'channel.item[title,link,description]']
+            'link' => ['uses' => 'channel.link'],
+            'description' => ['uses' => 'channel.description'],
+            'image' => ['uses' => 'channel.image.url'],
+            'news' => ['uses' => 'channel.item[guid,title,link,description,category,pubDate,enclosure::url]'],
+
         ]);
+
+        echo date('c') . ' ' . $link;
         //dd($data);
         $this->news($data);
     }
+
     private function news($data) {
         //dd($data);
         $newCategory = $data['category'];
 
         $category = Category::firstOrCreate([
-            'category' => $newCategory,
-            'name' => \Str::slug($newCategory),
+            'title' => $newCategory,
+            'slug' => \Str::slug($newCategory),
         ]);
 
 
@@ -40,12 +46,13 @@ class XMLParserService
 
 
             $newsBuffer = News::query()
-                ->where('heading', $item['title'])
+                ->where('title', $item['title'])
                 ->first();
             if (!$newsBuffer) {
                 $news[] = [
-                    'heading' => $item['title'],
-                    'description' => $item['description'],
+                    'title' => $item['title'],
+                    'text' => $item['description'],
+                    'image' => $item['enclosure::url'],
                     'category_id' => $category->id,
                     'is_parsed' => true,
                 ];

@@ -24,8 +24,8 @@ class ValidCategory extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|alpha|min:3|max:25',
-            'slug' => 'required|alpha|min:3|max:25',
+            'title' => 'required|min:3|max:25',
+            'slug' => 'required|min:3|max:25',
         ];
     }
 }

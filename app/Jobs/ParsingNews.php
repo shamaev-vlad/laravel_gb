@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\XMLParserService;
+use App\Services\XMLParserServices;
 
 class ParsingNews implements ShouldQueue
 {
@@ -30,7 +30,7 @@ class ParsingNews implements ShouldQueue
      * @param XMLParserService $parserService
      * @return void
      */
-    public function handle(XMLParserService $parserService)
+    public function handle(XMLParserServices $parserServices)
     {
         $parserService->saveParsedNews($this->link);
     }

@@ -19,7 +19,7 @@ class UserRepository
             $userInSystem = new User();
             $userInSystem->fill([
                 'name' => !empty($user->getName()) ? $user->getName() : '',
-                'email' => ($socName == 'vkontakte') ? $user->getEmail() : 'email',
+                'email' => !empty($user->getEmail()) ? $user->getEmail() : '',
                 'password' => '',
                 'id_in_soc' => !empty($user->getId()) ? $user->getId() : '',
                 'type_auth' => $socName,

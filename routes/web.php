@@ -87,6 +87,8 @@ Route::name('news.')
                     });
 
 
+
+
             Route::get('/', [NewsController::class, 'index'])->name('index');
             Route::get('/newsOne/{news}', [NewsController::class, 'show'])->name('newsOne');
             Route::post('/search', [NewsController::class, 'search'])->name('search');
