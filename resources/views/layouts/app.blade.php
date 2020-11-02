@@ -51,7 +51,7 @@
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Войти') }}</a>
                         </li>
                     @else
-                      <img src="{{ Auth::user()->avatar }}" whidth="40" alt="">
+                      <img src="{{ Auth::user()->avatar }}" whidth="60" height="50" alt="">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

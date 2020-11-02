@@ -9,7 +9,7 @@ use App\Models\News;
 use DB;
 use Orchestra\Parser\Xml\Facade as XMLParser;
 
-class XMLParserServices
+class XMLParserService
 {
     public function saveParsedNews($link)
     {
@@ -22,10 +22,7 @@ class XMLParserServices
             'description' => ['uses' => 'channel.description'],
             'image' => ['uses' => 'channel.image.url'],
             'news' => ['uses' => 'channel.item[guid,title,link,description,category,pubDate,enclosure::url]'],
-
         ]);
-
-        echo date('c') . ' ' . $link;
         //dd($data);
         $this->news($data);
     }
@@ -52,6 +49,7 @@ class XMLParserServices
                 $news[] = [
                     'title' => $item['title'],
                     'text' => $item['description'],
+                    'isPrivate' => false,
                     'image' => $item['enclosure::url'],
                     'category_id' => $category->id,
                     'is_parsed' => true,

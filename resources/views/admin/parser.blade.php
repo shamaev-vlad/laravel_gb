@@ -29,10 +29,16 @@
 
                         <div class="row mx-auto">
                             @forelse($categories as $category)
-                                <div style="display: flex; width: 100%">
+                                <div style="width: 100%">
                                     <h2><a href="{{ route('news.category.show', $category['slug']) }}">
                                             {{ $category->title }}
                                         </a></h2>
+                                        <p>
+                                        <form method="POST" action="{{ route('admin.category.destroy', $category) }}">
+                                            <a class="btn btn-success" href="{{ route('admin.category.edit', $category) }}">Редактировать</a>
+
+                                        </form>
+                                        </p>
                                 </div>
                             @empty
                                 <h2 style="padding: 20px; margin-left: 50px">Нет категорий</h2>

@@ -41,5 +41,6 @@ class savejson extends Command
     {
       \File::put(storage_path() . '/news.json', json_encode(News::$news, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
       \File::put(storage_path() . '/category.json',  json_encode(Category::$categories, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+      \File::put(storage_path() . '/resources.json',  json_encode(Resources::$resources, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
 }

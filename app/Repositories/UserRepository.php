@@ -15,6 +15,7 @@ class UserRepository
             ->where('id_in_soc', $user->id)
             ->where('type_auth', $socName)
             ->first();
+
         if (empty($userInSystem)) {
             $userInSystem = new User();
             $userInSystem->fill([

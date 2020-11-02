@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Socialite\Facades\Socialite;
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -19,14 +19,15 @@ class LoginController extends Controller
     }
 
     public function responseVK(UserRepository $userRepository) {
-        if (!Auth::check()) {
-            $user = Socialite::with('vkontakte')->user();
-            $userInSysem = $userRepository->getUserBySocId($user, 'vk');
+      if (!Auth::check()) {
 
-            Auth::login($userInSysem);
+          $user = Socialite::with('vkontakte')->user();
+          $userInSysem = $userRepository->getUserBySocId($user, 'vk');
 
-        }
-        return redirect()->route('index');
+          Auth::login($userInSysem);
+
+      }
+      return redirect()->route('index');
 
     }
 

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{HomeController, ProfileController, LoginController};
-use App\Http\Controllers\Admin\{IndexController,ExportController, CrudCategoryController, CrudNewsController, UsersController, ParserController};
+use App\Http\Controllers\Admin\{IndexController,ExportController, CrudCategoryController, CrudResourcesController, CrudNewsController, UsersController, ParserController};
 use App\Http\Controllers\News\{NewsController, CategoryController};
 
 /*
@@ -61,6 +61,7 @@ Route::name('admin.')
                     });
 
            Route::resource('category', CrudCategoryController::class);
+           Route::resource('resources', CrudResourcesController::class);
            Route::resource('news', CrudNewsController::class);
            Route::resource('user', UsersController::class);
            Route::get('/crudUser', [UsersController::class, 'index'])->name('updateProfile');

@@ -22,12 +22,14 @@
 
                         @if ($news)
                             @forelse($news as $item)
-                            <img class="card-img-top" src="{{ $news->image ?? asset('default.jpg')}}">
+                            <img class="card-img-top" style="margin-bottom: 25px;" src="{{ $item->image ?? asset('default.jpg')}}">
                                 <h4>{{ __($item->title) }}</h4>
 
                                     <a class="card-body_link"
                                        href="{{ route('news.newsOne', $item->id) }}">{{ __('Подробнее...') }}
                                     </a>
+
+                                    <div style="border-bottom: 1px solid #6c757d; width: 100%; margin: 25px 0 25px 0;"></div>
 
                             @empty
                                 {{ __('Нет новостей!') }}

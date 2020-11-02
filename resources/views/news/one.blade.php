@@ -18,6 +18,9 @@
                         <div class="card-header">{{ __('Новость!')  }}</div>
                     @endif
                     <div class="card-body">
+                      <div style="margin: 0 0 25px 0">
+                        <a href="{{ route('news.index') }}">Назад</a>
+                      </div>
                       <div >
                           <img class="card-img-top" src="{{ $news->image ?? asset('default.jpg')}}">
                       </div>
@@ -28,7 +31,7 @@
                         @endif
                             @if ($news)
 
-                                    <p>{!! $news->text !!}</p>
+                                    <p style="margin-top: 25px;">{!! $news->text !!}</p>
 
                             @else
                                 <p>{{ __('Нет новости с таким id') }}</p>

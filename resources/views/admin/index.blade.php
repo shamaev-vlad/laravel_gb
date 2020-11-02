@@ -25,6 +25,9 @@
                         <li class="nav-item {{ request()->routeIs('admin.category.index')?'active':'' }}">
                                <a class="card-body_link" href="{{ route('admin.category.index') }}">{{ __('Редактирование рубрик') }}</a>
                             </li>
+                        <li class="nav-item {{ request()->routeIs('admin.resources.index')?'active':'' }}">
+                                <a class="card-body_link" href="{{ route('admin.resources.index') }}">{{ __('Редактирование ресурсов') }}</a>
+                            </li>
                     </div>
                 </div>
             </div>
